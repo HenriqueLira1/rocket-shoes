@@ -1,9 +1,15 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
+import Routes from './routes';
+import GlobalStyles from './styles/global';
 
 export default function App() {
     return (
-        <div className="App">
-            <h1>Hello Redux</h1>
-        </div>
+        <BrowserRouter>
+            {/* <Header/> */}
+            <Routes />
+            <GlobalStyles />
+        </BrowserRouter>
     );
 }
