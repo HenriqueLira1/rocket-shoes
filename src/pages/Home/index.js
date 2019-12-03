@@ -24,10 +24,10 @@ class Home extends Component {
         this.setState({ products });
     }
 
-    handleAddProduct = product => {
+    handleAddProduct = id => {
         const { addToCart } = this.props;
 
-        addToCart(product);
+        addToCart(id);
     };
 
     render() {
@@ -44,7 +44,7 @@ class Home extends Component {
 
                         <button
                             type="button"
-                            onClick={() => this.handleAddProduct(product)}
+                            onClick={() => this.handleAddProduct(product.id)}
                         >
                             <div>
                                 <MdAddShoppingCart size={16} color="#fff" />{' '}
