@@ -1,107 +1,46 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
 
+import api from '../../services/api';
+import { formatPrice } from '../../util/format';
 import { ProductList } from './styles';
 
-export default function Home() {
-    return (
-        <ProductList>
-            <li>
-                <img
-                    src="https://static.netshoes.com.br/produtos/tenis-esporte-adaption-masculino/14/KTM-0031-014/KTM-0031-014_zoom1.jpg"
-                    alt="Tênis"
-                />
-                <strong>Tênis muito legal</strong>
-                <span>R$129,90</span>
+export default class Home extends Component {
+    state = {
+        products: [],
+    };
 
-                <button type="button">
-                    <div>
-                        <MdAddShoppingCart size={16} color="#fff" />
-                    </div>
+    async componentDidMount() {
+        const reponse = await api.get('products');
 
-                    <span>ADICIONAR AO CARRINHO</span>
-                </button>
-            </li>
-            <li>
-                <img
-                    src="https://static.netshoes.com.br/produtos/tenis-esporte-adaption-masculino/14/KTM-0031-014/KTM-0031-014_zoom1.jpg"
-                    alt="Tênis"
-                />
-                <strong>Tênis muito legal</strong>
-                <span>R$129,90</span>
+        const products = reponse.data.map(product => ({
+            ...product,
+            formattedPrice: formatPrice(product.price),
+        }));
 
-                <button type="button">
-                    <div>
-                        <MdAddShoppingCart size={16} color="#fff" />
-                    </div>
+        this.setState({ products });
+    }
 
-                    <span>ADICIONAR AO CARRINHO</span>
-                </button>
-            </li>
-            <li>
-                <img
-                    src="https://static.netshoes.com.br/produtos/tenis-esporte-adaption-masculino/14/KTM-0031-014/KTM-0031-014_zoom1.jpg"
-                    alt="Tênis"
-                />
-                <strong>Tênis muito legal</strong>
-                <span>R$129,90</span>
+    render() {
+        const { products } = this.state;
+        return (
+            <ProductList>
+                {products.map(product => (
+                    <li key={product.id}>
+                        <img src={product.image} alt={product.title} />
+                        <strong>{product.title}</strong>
+                        <span>{product.formattedPrice}</span>
 
-                <button type="button">
-                    <div>
-                        <MdAddShoppingCart size={16} color="#fff" />
-                    </div>
+                        <button type="button">
+                            <div>
+                                <MdAddShoppingCart size={16} color="#fff" /> 3
+                            </div>
 
-                    <span>ADICIONAR AO CARRINHO</span>
-                </button>
-            </li>
-            <li>
-                <img
-                    src="https://static.netshoes.com.br/produtos/tenis-esporte-adaption-masculino/14/KTM-0031-014/KTM-0031-014_zoom1.jpg"
-                    alt="Tênis"
-                />
-                <strong>Tênis muito legal</strong>
-                <span>R$129,90</span>
-
-                <button type="button">
-                    <div>
-                        <MdAddShoppingCart size={16} color="#fff" />
-                    </div>
-
-                    <span>ADICIONAR AO CARRINHO</span>
-                </button>
-            </li>
-            <li>
-                <img
-                    src="https://static.netshoes.com.br/produtos/tenis-esporte-adaption-masculino/14/KTM-0031-014/KTM-0031-014_zoom1.jpg"
-                    alt="Tênis"
-                />
-                <strong>Tênis muito legal</strong>
-                <span>R$129,90</span>
-
-                <button type="button">
-                    <div>
-                        <MdAddShoppingCart size={16} color="#fff" />
-                    </div>
-
-                    <span>ADICIONAR AO CARRINHO</span>
-                </button>
-            </li>
-            <li>
-                <img
-                    src="https://static.netshoes.com.br/produtos/tenis-esporte-adaption-masculino/14/KTM-0031-014/KTM-0031-014_zoom1.jpg"
-                    alt="Tênis"
-                />
-                <strong>Tênis muito legal</strong>
-                <span>R$129,90</span>
-
-                <button type="button">
-                    <div>
-                        <MdAddShoppingCart size={16} color="#fff" />
-                    </div>
-
-                    <span>ADICIONAR AO CARRINHO</span>
-                </button>
-            </li>
-        </ProductList>
-    );
+                            <span>ADICIONAR AO CARRINHO</span>
+                        </button>
+                    </li>
+                ))}
+            </ProductList>
+        );
+    }
 }
